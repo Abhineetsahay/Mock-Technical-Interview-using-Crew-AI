@@ -1,9 +1,11 @@
 from crewai import Task
 
 
-def create_resume_task(agent, resume_text):
+def create_resume_task(agent, resume_text, level):
     return Task(
         description=f"""
+        Candidate Level:
+        {level}
         Analyze the following resume:
 
         {resume_text}
@@ -20,16 +22,35 @@ def create_resume_task(agent, resume_text):
     )
 
 
-def create_question_task(agent, analysis):
+def create_next_question_task(
+    agent,
+    analysis,
+    level,
+    chat_history,
+):
     return Task(
         description=f"""
-        Based on the resume analysis below:
+        Candidate Level:
+        {level}
 
+        Resume Analysis:
         {analysis}
 
-        Generate 10 technical interview questions.
+        Previous Interview History:
+        {chat_history}
+
+        You are conducting a real interview.
+
+        Ask ONLY ONE question.
+
+        Rules:
+        - Natural interview flow
+        - Use previous answers
+        - Ask follow-up questions when needed
+        - Increase difficulty if candidate performs well
+        - Never ask multiple questions
         """,
-        expected_output="List of interview questions.",
+        expected_output="A single interview question",
         agent=agent,
     )
 

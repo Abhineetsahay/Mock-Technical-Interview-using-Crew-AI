@@ -15,15 +15,19 @@ resume_analyzer = Agent(
     goal="Analyze resumes and identify skills, projects, strengths and weakness",
     backstory="A Senior Technical Recuriter",
     llm=llm,
-    allow_delegation=True,
 )
 
 interviewer = Agent(
     role="Technical Interviewer",
-    goal="Generate questions for the interview based on the resume",
+    goal="""
+Conduct realistic technical interviews.
+Ask exactly one question at a time.
+Use previous answers to create follow-up questions.
+Behave like a real interviewer.
+Do not reveal future questions.
+""",
     backstory="A Senior Software Engineer",
     llm=llm,
-    allow_delegation=True,
 )
 
 evaluator = Agent(
